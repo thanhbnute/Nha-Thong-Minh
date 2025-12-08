@@ -194,12 +194,4 @@ function goKitchen() { location.href = "kitchen.html"; }
 
 document.addEventListener("DOMContentLoaded", startClock);
 
-function showRoom(room) {
-    // Ẩn tất cả nội dung phòng
-    document.querySelectorAll('.room-content').forEach(div => div.style.display = 'none');
-    document.getElementById(room)?.style = 'display: block';
 
-    // Bỏ active cũ, thêm active mới cho nút
-    document.querySelectorAll('#menu-left button').forEach(btn => btn.classList.remove('active'));
-    document.querySelector(`#menu-left button[onclick="showRoom('${room}')"]`).classList.add('active');
-}
