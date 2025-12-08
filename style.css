@@ -74,6 +74,9 @@ body {
     background: #e8efff;
     transform: scale(1.02);
 }
+#menu-left button:active {
+    background-color: deepskyblue;
+}
 
 /* CONTENT */
 #content {
@@ -368,4 +371,5 @@ canvas {
     .room-card {
         width: 320px;
     }
+
 }
