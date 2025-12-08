@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home - Trang chủ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="startClock()">
+<div id="container">
+    <!-- HEADER -->
+    <div id="header">
+        <img src="icon_home1.png" id="logo">
+        <div id="title">SMART HOME</div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div id="main-area">
+        <!-- MENU TRÁI -->
+        <div id="menu-left">
+            <button onclick="goHome()">Home</button>
+            <button onclick="goBedroom()">Phòng ngủ</button>
+            <button onclick="goLiving()">Phòng khách</button>
+            <button onclick="goKitchen()">Phòng bếp</button>
+        </div>
+
+        <!-- NỘI DUNG TRANG CHỦ -->
+        <div id="content">
+            <!-- Đồng hồ -->
+            <div id="time-box">Thời gian: <span id="time"></span></div>
+
+            <!-- 3 KHỐI PHÒNG NẰM NGANG ĐẸP -->
+            <div class="rooms-container">
+                <!-- Phòng khách -->
+                <div class="room-card" onclick="goLiving()">
+                    <img src="livingroom.png" class="room-img" alt="Phòng khách">
+                    <div class="room-info">
+                        <p><img src="nhietdo1.png" class="icon"><span class="temp">-- °C</span></p>
+                        <p><img src="doam1.png" class="icon"><span class="humid">-- %</span></p>
+                        <p><img src="anhsang.png" class="icon"><span class="extra">-- Lux</span></p>
+                    </div>
+                </div>
+
+                <!-- Phòng bếp -->
+                <div class="room-card" onclick="goKitchen()">
+                    <img src="kitchen.png" class="room-img" alt="Phòng bếp">
+                    <div class="room-info">
+                        <p><img src="nhietdo1.png" class="icon"><span class="temp">-- °C</span></p>
+                        <p><img src="doam1.png" class="icon"><span class="humid">-- %</span></p>
+                        <p><img src="khigas.png" class="icon-gas"><span class="extra">-- %</span></p>
+                    </div>
+                </div>
+
+                <!-- Phòng ngủ -->
+                <div class="room-card" onclick="goBedroom()">
+                    <img src="bedroom1.png" class="room-img" alt="Phòng ngủ">
+                    <div class="room-info">
+                        <p><img src="nhietdo1.png" class="icon"><span class="temp">-- °C</span></p>
+                        <p><img src="doam1.png" class="icon"><span class="humid">-- %</span></p>
+                        <p><img src="anhsang.png" class="icon"><span class="extra">-- Lux</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer">
+        <ul>
+            <li>Design by:Bùi Ngọc Thành - Nguyễn Thái Tân - Lê Đức Trí</li>
+            <li>Mọi chi tiết xin liên hệ qua Hotline: 0396602798</li>
+            <li>Email: thanhbn.iot@gmail.com</li>
+        </ul>
+    </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

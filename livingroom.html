@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Home - Phòng Khách</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="initLivingroom()">
+
+<div id="container">
+    <!-- HEADER -->
+    <div id="header">
+        <img src="icon_home1.png" id="logo">
+        <div id="title">SMART HOME</div>
+    </div>
+
+    <!-- MAIN LAYOUT -->
+    <div id="main-area">
+        <!-- MENU LEFT -->
+        <div id="menu-left">
+            <button onclick="goHome()">Home</button>
+            <button onclick="goBedroom()">Phòng ngủ</button>
+            <button onclick="goLiving()">Phòng khách</button>
+            <button onclick="goKitchen()">Phòng bếp</button>
+        </div>
+
+        <!-- CONTENT -->
+        <div id="content">
+            <!-- TIME -->
+            <div id="time-box">Thời gian: <span id="time"></span></div>
+
+            <!-- DASHBOARD WRAPPER -->
+            <div class="dashboard-wrapper">
+                <!-- CHARTS COLUMN -->
+                <div class="col-charts">
+                    <div class="chart-card">
+                        <div class="chart-title">Nhiệt độ</div>
+                        <canvas id="chartTemp"></canvas>
+                        <div class="current-value">Hiện tại: <span class="val-temp">28.5 °C</span></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="chart-title">Độ ẩm</div>
+                        <canvas id="chartHumid"></canvas>
+                        <div class="current-value">Hiện tại: <span class="val-humid">62 %</span></div>
+                    </div>
+                </div>
+
+                <!-- CONTROLS COLUMN -->
+                <div class="col-controls">
+                    <div class="gauge-container">
+                        <div class="light-gauge"></div>
+                        <div class="light-text">Ánh sáng: 750 Lux</div>
+                    </div>
+
+                    <div class="device-list">
+                        <div class="device-item">
+                            <img id="light-icon" src="icon_light_off.png" class="dev-icon" alt="Đèn">
+                            <button id="btn-light" class="btn-toggle" onclick="toggleDevice(this)">OFF</button>
+                        </div>
+
+                        <div class="device-item">
+                            <img id="fan-icon" src="icon_fan_off.png" class="dev-icon" alt="Quạt">
+                            <button id="btn-fan" class="btn-toggle" onclick="toggleDevice(this)">OFF</button>
+                        </div>
+
+                        <div class="device-item">
+                            <img id="tivi-icon" src="icon_tivi_off.png" class="dev-icon" alt="TV">
+                            <button id="btn-tivi" class="btn-toggle" onclick="toggleDevice(this)">OFF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div id="footer">
+        <ul>
+            <li>Design by:Bùi Ngọc Thành - Nguyễn Thái Tân - Lê Đức Trí</li>
+            <li>Mọi chi tiết xin liên hệ qua Hotline: 0396602798</li>
+            <li>Email: thanhbn.iot@gmail.com</li>
+        </ul>
+    </div>
+</div>
+<script>
+    function initLivingroom() {
+        window.currentRoom = "livingroom";
+    }
+</script>
+<script src="main.js"></script>
+<script src="livingroom.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+body {
+    font-family: tahoma, sans-serif;
+    margin: 0;
+    padding:0;
+    background-image: url("nen.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#container {
+    width: auto;
+    height: 750px;
+    margin: 0 auto;
+    background: rgb(203, 179, 224);
+    position: relative;
+}
+
+/* HEADER */
+#header {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #8B3AFA, #D64DF5, #FF8AD9);
+    background: linear-gradient(90deg, #6A1B9A, #9C27B0, #EC407A, #FF6E96);
+}
+#logo { 
+    width: 150px; 
+    height: 150px; 
+    margin-left: 50px;
+}
+#title { 
+    flex: 1; 
+    text-align: center; 
+    font-size: 40px; 
+    color: rgb(0, 0, 0); 
+    font-weight: bold; 
+}
+
+/* MAIN LAYOUT */
+#main-area { 
+    display: flex; 
+    height: calc(790px - 84px); /* Trừ header và border */
+    margin: 0;
+    padding: 0;
+}
+
+/* MENU LEFT */
+#menu-left {
+    margin: 0;
+    width: 200px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: linear-gradient(to right, #8B3AFA, #D64DF5, #FF8AD9);
+    background: linear-gradient(90deg, #6A1B9A, #9C27B0, #EC407A, #FF6E96);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+#menu-left button {
+    width: 100%;
+    padding: 20px 10px;
+    font-size: 18px;
+    background: #f7f9fc;
+    border: 2px solid #2c3e50;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#menu-left button:hover {
+    background: #e8efff;
+    transform: scale(1.02);
+}
+
+/* CONTENT */
+#content {
+    background: #ffffff;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* TIME BOX */
+#time-box {
+    position: absolute;
+    top: 10px;
+    right: 90px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+    display: block;
+}
+
+/* FOOTER */
+#footer {
+    background: whitesmoke;
+    min-height: 45px;
+    width: 100%;
+}
+#footer ul {
+    margin: 0;
+    padding: 0;
+}
+#footer ul li {
+    list-style: none;
+    float: left;
+    width: 60%;
+    font-size: 15px;
+}
+
+/* COMMON TOGGLE BUTTON */
+.btn-toggle {
+    width: 90px;
+    padding: 10px 0;
+    background: #ff4d4d;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+.btn-toggle.on {
+    background: #2ecc71;
+}
+
+/* DEVICE ICON */
+.dev-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+/* DASHBOARD WRAPPER */
+.dashboard-wrapper {
+    display: flex;
+    gap: 20px;
+    height: 100%;
+    padding-top: 10px;
+}
+
+/* CHARTS COLUMN */
+.col-charts {
+    margin-top: 30px;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-left: 20px;
+    box-shadow: 5px 5px 5px 5px rgba(110, 185, 255, 0.1);
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid rgb(141, 213, 255)  ;
+}
+
+.chart-title {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 10px;
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.current-value {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.val-temp { color: #e74c3c; }
+
+.val-humid { color: #27ae60; }
+
+canvas {
+    width: 100% !important;
+    height: 170px !important;
+}
+
+/* CONTROLS COLUMN */
+.col-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 535px;  
+}
+
+/* GAUGE */
+.gauge-container {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.light-gauge {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: conic-gradient(#ffc107 0% 75%, #e0e0e0 75% 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.light-gauge::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+.light-text {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+.gas-gauge {
+    position: relative;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: conic-gradient(#e74c3c 0% 30%, #e0e0e0 30% 100%); /* Adjust theo % gas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.gas-gauge::before {
+    content: "";
+    width: 120px;
+    height: 120px;
+    background: #ffffff;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.gas-text {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+}
+
+/* DEVICE LIST */
+.device-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    align-items: center;
+}
+
+.device-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 15px;
+}
+
+.dev-icon {
+    width: 90px;
+    height: 90px;
+}
+
+.btn-toggle {
+    width: 100px;
+    padding: 12px 0;
+    font-size: 18px;
+    border-radius: 8px;
+}
+.rooms-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 40px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin-top: 40px;
+}
+
+.room-card {
+    background: white;
+    margin-top: 60px;
+    border-radius: 25px;
+    padding: 25px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.room-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+.room-info {
+    font-size: 24px;
+    line-height: 1.6;
+    padding:0;
+    margin-bottom:5px;
+}
+.room-info .temp { 
+    color: #e74c3c; 
+    font-weight: bold; 
+}
+.room-info .humid { 
+    color: #3498db; 
+    font-weight: bold; 
+}
+.room-info .extra { 
+    color: #95a5a6; 
+    font-weight: bold;
+}
+.room-info .gas { 
+    color: #e67e22; 
+    font-weight: bold;
+}
+
+.room-img {
+    width: 200px;
+    height: 200px;
+    padding-top:0px;
+    object-fit: contain;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+}
+
+.icon {
+    width: 60px;
+}
+.icon-gas{
+    width:60px;
+    margin-right:10px;
+}
+
+/* Responsive: màn hình nhỏ sẽ xuống 1 cột */
+@media (max-width: 1000px) {
+    .rooms-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .room-card {
+        width: 320px;
+    }
+}
