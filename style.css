@@ -77,6 +77,14 @@ body {
 #menu-left button:active {
     background-color: deepskyblue;
 }
+/* TRẠNG THÁI ĐANG CHỌN - SIÊU SÁNG VÀ ĐẸP */
+#menu-left button.active {
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B) !important;
+    color: white !important;
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+    font-weight: 900;
+}
 
 /* CONTENT */
 #content {
@@ -373,3 +381,4 @@ canvas {
     }
 
 }
+
