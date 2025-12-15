@@ -211,11 +211,11 @@ function updateDeviceStatus() {
         if (devices[name] === true) {
             btn.innerText = "ON";
             btn.classList.add("on");
-            icon.src = `image/icon_${name}_on.gif`;
+            icon.src = `icon_${name}_on.gif`;
         } else {
             btn.innerText = "OFF";
             btn.classList.remove("on");
-            icon.src = `image/icon_${name}_off.png`;
+            icon.src = `icon_${name}_off.png`;
         }
     });
 }
@@ -275,3 +275,4 @@ function goLiving() { location.href = "livingroom.html"; }
 function goKitchen() { location.href = "kitchen.html"; }
 
 document.addEventListener("DOMContentLoaded", startClock);
+
