@@ -1,4 +1,4 @@
-// main.js – PHIÊN BẢN HYBRID (REALTIME + FIRESTORE) - ĐÃ FIX
+// main.js – HYBRID AUTO-SAVE TO FIRESTORE + FALLBACK
 
 const firebaseConfig = {
     apiKey: "AIzaSyDQz68ykPR1dCcTXDeyaPjKKk3IoMv_HHA",
@@ -10,7 +10,7 @@ const firebaseConfig = {
     appId: "1:373407938226:web:8ff2e7758d313353eb7bab"
 };
 
-// Load Firebase (App + Realtime Database + Firestore)
+// Load Firebase
 const firebaseScript = document.createElement("script");
 firebaseScript.src = "https://www.gstatic.com/firebasejs/10.14.0/firebase-app-compat.js";
 firebaseScript.onload = () => {
@@ -27,6 +27,7 @@ firebaseScript.onload = () => {
 document.head.appendChild(firebaseScript);
 
 let db, firestore;
+let lastSaveTime = {}; // Theo dõi lần lưu cuối mỗi phòng
 
 window.realtimeData = { 
     livingroom: { sensors: {}, devices: {}, history: { labels: [], temp: [], humidity: [] } },
@@ -49,7 +50,6 @@ function initFirebase() {
     startRealtimeListeners();
     setTimeout(() => { updateDeviceStatus(); }, 800);
     
-    // ✅ FIX: Gọi sync Home từ code cũ
     if (!window.currentRoom) {
         startHomeRealtimeSync();
     }
@@ -63,14 +63,14 @@ function getCurrentRoom() {
     return null;
 }
 
-// === TẢI LỊCH SỬ TỪ FIRESTORE ===
+// === TẢI LỊCH SỬ TỪ FIRESTORE (KHI KHỞI ĐỘNG) ===
 function loadHistoryFromFirestore(roomName) {
-    console.log(`Đang tải lịch sử Firestore cho phòng: ${roomName}...`);
+    console.log(`📊 Đang tải lịch sử Firestore cho phòng: ${roomName}...`);
     
     firestore.collection("history_data")
         .where("room", "==", roomName)
         .orderBy("timestamp", "desc")
-        .limit(10)
+        .limit(15)
         .get()
         .then((querySnapshot) => {
             const temps = [];
@@ -81,7 +81,7 @@ function loadHistoryFromFirestore(roomName) {
                 const data = doc.data();
                 let timeStr = "00:00";
                 if (data.timestamp && data.timestamp.toDate) {
-                    timeStr = data.timestamp.toDate().toLocaleTimeString('vi-VN');
+                    timeStr = data.timestamp.toDate().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
                 }
                 
                 temps.push(data.temp || 0);
@@ -93,12 +93,42 @@ function loadHistoryFromFirestore(roomName) {
             window.realtimeData[roomName].history.temp = temps.reverse();
             window.realtimeData[roomName].history.humidity = humids.reverse();
 
-            console.log("✅ Đã tải xong lịch sử Firestore:", window.realtimeData[roomName].history);
+            console.log(`✅ Đã tải ${labels.length} điểm dữ liệu từ Firestore`);
             updateCurrentValues();
         })
         .catch((error) => {
             console.error("❌ Lỗi tải Firestore:", error);
-            console.log("💡 Nếu thiếu Index, hãy mở Console và click vào link để tạo Index tự động.");
+            console.log("💡 Cần tạo Composite Index: room + timestamp (desc)");
+        });
+}
+
+// === AUTO-SAVE TO FIRESTORE (MỖI 30s) ===
+function saveToFirestore(roomName, sensorData) {
+    const now = Date.now();
+    
+    // Chỉ lưu mỗi 30s để tránh spam Firestore
+    if (lastSaveTime[roomName] && (now - lastSaveTime[roomName]) < 30000) {
+        return;
+    }
+    
+    lastSaveTime[roomName] = now;
+    
+    const dataToSave = {
+        room: roomName,
+        temp: sensorData.temp || 0,
+        humidity: sensorData.humidity || 0,
+        light: sensorData.light || 0,
+        gas: sensorData.gas || 0,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    firestore.collection("history_data")
+        .add(dataToSave)
+        .then(() => {
+            console.log(`💾 [${roomName}] Đã lưu vào Firestore: ${sensorData.temp}°C, ${sensorData.humidity}%`);
+        })
+        .catch((error) => {
+            console.error(`❌ Lỗi lưu Firestore [${roomName}]:`, error);
         });
 }
 
@@ -108,15 +138,19 @@ function startRealtimeListeners() {
             const newSensors = snap.val() || {};
             window.realtimeData[room].sensors = newSensors;
             
+            // 🔥 TỰ ĐỘNG LƯU VÀO FIRESTORE
+            if (newSensors.temp !== undefined && newSensors.humidity !== undefined) {
+                saveToFirestore(room, newSensors);
+            }
+            
             if (window.currentRoom === room) {
                 const history = window.realtimeData[room].history;
-                const time = new Date().toLocaleTimeString('vi-VN');
+                const time = new Date().toLocaleTimeString('vi-VN', {hour: '2-digit', minute: '2-digit'});
                 
                 history.labels.push(time);
                 history.temp.push(newSensors.temp || 0);
                 history.humidity.push(newSensors.humidity || 0);
 
-                // Giới hạn 15 điểm
                 if (history.labels.length > 15) {
                     history.labels.shift();
                     history.temp.shift();
@@ -150,7 +184,7 @@ function updateCurrentValues() {
     if (document.querySelector('.gas-text')) 
         document.querySelector('.gas-text').innerText = `Khí gas: ${s.gas || 0} %`;
 
-    // Update gauge (logic từ code cũ)
+    // Update gauge
     if (room !== "kitchen") {
         const percent = Math.min(((s.light || 0) / 1000) * 100, 100);
         const gauge = document.querySelector('.light-gauge');
@@ -211,11 +245,11 @@ function updateDeviceStatus() {
         if (devices[name] === true) {
             btn.innerText = "ON";
             btn.classList.add("on");
-            icon.src = `icon_${name}_on.gif`;
+            icon.src = `image/icon_${name}_on.gif`;
         } else {
             btn.innerText = "OFF";
             btn.classList.remove("on");
-            icon.src = `icon_${name}_off.png`;
+            icon.src = `image/icon_${name}_off.png`;
         }
     });
 }
@@ -227,7 +261,6 @@ function toggleDevice(btn) {
     db.ref(`rooms/${window.currentRoom}/devices/${deviceName}`).set(!current);
 }
 
-// Đồng hồ
 function startClock() {
     setInterval(() => {
         const t = new Date().toLocaleTimeString('vi-VN');
@@ -236,7 +269,6 @@ function startClock() {
     }, 1000);
 }
 
-// ✅ HOME SYNC (logic từ code cũ, đã được test)
 function startHomeRealtimeSync() {
     if (!location.pathname.includes("index.html") && location.pathname !== "/") return;
 
@@ -275,4 +307,3 @@ function goLiving() { location.href = "livingroom.html"; }
 function goKitchen() { location.href = "kitchen.html"; }
 
 document.addEventListener("DOMContentLoaded", startClock);
-
