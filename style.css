@@ -2,7 +2,7 @@ body {
     font-family: tahoma, sans-serif;
     margin: 0;
     padding:0;
-    background-image: url("nen.png");
+    /*background-image: url("nen.png");*/
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -74,17 +74,6 @@ body {
     background: #e8efff;
     transform: scale(1.02);
 }
-#menu-left button:active {
-    background-color: deepskyblue;
-}
-/* TRẠNG THÁI ĐANG CHỌN - SIÊU SÁNG VÀ ĐẸP */
-#menu-left button.active {
-    background: linear-gradient(135deg, #FFD93D, #FF6B6B) !important;
-    color: white !important;
-    transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
-    font-weight: 900;
-}
 
 /* CONTENT */
 #content {
@@ -110,7 +99,6 @@ body {
     background: whitesmoke;
     min-height: 45px;
     width: 100%;
-    height: 60px;
 }
 #footer ul {
     margin: 0;
@@ -380,7 +368,182 @@ canvas {
     .room-card {
         width: 320px;
     }
-
 }
 
+/* =========================================================
+   📱 RESPONSIVE FOR MOBILE (App Inventor)
+   ========================================================= */
+@media (max-width: 768px) {
 
+    html, body {
+        width: 100% !important;
+        min-height: 100% !important;
+        height: auto !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    /* FIX KHÔNG CUỘN TRÊN APP INVENTOR */
+    #container, #main-area, #content, .dashboard-wrapper {
+        height: auto !important;
+        overflow-y: auto !important;
+    }
+
+    /* HEADER */
+    #header {
+        height: 60px !important;
+        padding: 0 10px;
+    }
+    #logo {
+        width: 70px !important;
+        height: 70px !important;
+        margin-left: 10px;
+    }
+    #title {
+        font-size: 26px !important;
+    }
+
+    /* LAYOUT CHÍNH: Đưa menu trái lên trên */
+    #main-area {
+        flex-direction: column !important;
+        height: auto !important;
+    }
+
+    /* MENU TRÁI */
+    #menu-left {
+        width: 100% !important;
+        flex-direction: row !important;
+        justify-content: space-around;
+        padding: 5px !important;
+        gap: 5px !important; 
+        box-sizing: border-box;         /**/
+    }
+
+    #menu-left button {
+        font-size: 13px !important;
+        padding: 8px 2px !important;
+        width: auto;
+        flex: 1;
+    }
+
+    /* TIME TEXT */
+    #time-box {
+        font-size: 20px !important;
+        margin-top: 10px !important;
+        position: relative !important;
+        right: auto !important;
+        text-align: center;
+    }
+
+    /* CONTENT */
+    #content {
+        padding: 10px !important;
+        overflow-y: visible !important;
+    }
+
+    /* DASHBOARD: XẾP DỌC */
+    .dashboard-wrapper {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 10px;
+    }
+
+    .col-charts, .col-controls {
+        width: 100% !important;
+        margin: 0 auto !important;
+        height: auto !important;
+    }
+
+    .chart-card {
+        margin-left: 0 !important;
+        height: auto !important;
+        padding: 10px !important;
+    }
+
+    .chart-title {
+        font-size: 18px !important;
+    }
+
+    .current-value {
+        font-size: 16px !important;
+    }
+
+    canvas {
+        height: 150px !important;
+    }
+
+    /* GAUGE */
+    .gauge-container {
+        margin-top: 20px !important;
+    }
+
+    .light-gauge, .gas-gauge {
+        width: 130px !important;
+        height: 130px !important;
+    }
+    .light-gauge::before, .gas-gauge::before {
+        width: 90px !important;
+        height: 90px !important;
+    }
+
+    .light-text, .gas-text {
+        font-size: 16px !important;
+    }
+
+    /* DEVICE LIST */
+    .device-item {
+        gap: 10px !important;
+    }
+    .dev-icon {
+        width: 70px !important;
+        height: 70px !important;
+    }
+    .btn-toggle {
+        width: 90px !important;
+        font-size: 14px !important;
+        padding: 10px 0 !important;
+    }
+
+    /* ROOM CARDS (HOME PAGE) */
+    .rooms-container {
+        flex-direction: column !important;
+        gap: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .room-card {
+        width: 90% !important;
+        margin-top: 15px !important;
+        padding: 10px !important;
+    }
+
+    .room-img {
+        width: 150px !important;
+        height: 150px !important;
+    }
+
+    .room-info {
+        font-size: 18px !important;
+    }
+
+    /* ẨN FOOTER VÌ TRÀN */
+    #footer {
+        display: none !important;
+        height: 0 !important;
+    }
+
+    /* TIME-BOX KHÔNG ĐÈ LÊN BIỂU ĐỒ */
+    #time-box {
+        position: relative !important;
+        top: 0 !important;
+        right: 0 !important;
+        margin: 10px 0 15px 0 !important;
+        text-align: center !important;
+        display: block;
+    }
+
+    /* Trong trang có Dashboard: đẩy xuống xíu để không dính biểu đồ */
+    .dashboard-wrapper #time-box {
+        margin-bottom: 20px !important;
+    }
+}
