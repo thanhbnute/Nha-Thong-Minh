@@ -57,9 +57,9 @@ function initFirebase() {
 
 function getCurrentRoom() {
     const path = location.pathname.toLowerCase();
-    if (path.includes("bedroom")) return "bedroom";
     if (path.includes("livingroom")) return "livingroom";
     if (path.includes("kitchen")) return "kitchen";
+    if (path.includes("bedroom")) return "bedroom";
     return null;
 }
 
@@ -182,15 +182,18 @@ function updateCurrentValues() {
     if (document.querySelector('.light-text')) 
         document.querySelector('.light-text').innerText = `Ánh sáng: ${s.light || 0} Lux`;
     if (document.querySelector('.gas-text')) 
-        document.querySelector('.gas-text').innerText = `Khí gas: ${s.gas || 0} %`;
+        document.querySelector('.gas-text').innerText = `Khí gas: ${s.gas || 0} ppm`;
 
     // Update gauge
     if (room !== "kitchen") {
-        const percent = Math.min(((s.light || 0) / 1000) * 100, 100);
+        const percent = Math.min(((s.light || 0) / 1000) * 100, 100);   // Fix: max 1000 Lux = 100%
         const gauge = document.querySelector('.light-gauge');
         if (gauge) gauge.style.background = `conic-gradient(#ffc107 0% ${percent}%, #e0e0e0 ${percent}% 100%)`;
     } else {
-        const percent = s.gas || 0;
+        // Giả sử 10000 ppm là đầy vòng tròn (ngưỡng báo động)
+        const maxPpm = 10000; 
+        const gasPpm = s.gas || 0;
+        const percent = Math.min((gasPpm / maxPpm) * 100, 100); 
         const gauge = document.querySelector('.gas-gauge');
         if (gauge) gauge.style.background = `conic-gradient(#e74c3c 0% ${percent}%, #e0e0e0 ${percent}% 100%)`;
     }
@@ -292,7 +295,7 @@ function startHomeRealtimeSync() {
             info.querySelector(".humid").innerText = `Độ ẩm: ${humid} %`;
             
             if (room === "kitchen") {
-                info.querySelector(".extra").innerText = `Khí gas: ${gas} %`;
+                info.querySelector(".extra").innerText = `Khí gas: ${gas} ppm`;
             } else {
                 info.querySelector(".extra").innerText = `Ánh sáng: ${light} Lux`;
             }
