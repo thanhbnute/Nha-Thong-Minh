@@ -335,6 +335,7 @@ canvas {
 .room-info .extra { 
     color: #95a5a6; 
     font-weight: bold;
+    line-height: 1;
 }
 .room-info .gas { 
     color: #e67e22; 
@@ -547,3 +548,4 @@ canvas {
         margin-bottom: 20px !important;
     }
 }
+
