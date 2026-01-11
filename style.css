@@ -352,7 +352,7 @@ canvas {
 }
 
 .icon {
-    width: 60px;
+    width: 50px;
 }
 .icon-gas{
     width:60px;
@@ -548,6 +548,7 @@ canvas {
         margin-bottom: 20px !important;
     }
 }
+
 
 
 
